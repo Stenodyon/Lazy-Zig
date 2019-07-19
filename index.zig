@@ -15,8 +15,8 @@ pub fn range(start: var, stop: @typeOf(start), step: @typeOf(start)) iterator(@t
 }
 
 test "Basic Lazy" {
-    var obj = []i32{ 0, 1, 2 };
-    const result = []i32{ 0, 2 };
+    var obj = [_]i32{ 0, 1, 2 };
+    const result = [_]i32{ 0, 2 };
     var buf: [2]i32 = undefined;
     std.debug.assert(std.mem.eql(i32, init(obj[0..]).where(even).toArray(buf[0..]), result[0..]));
     // Longer format
@@ -68,12 +68,12 @@ test "Readme-Tests" {
 }
 
 test "Basic Concat" {
-    var obj1 = []i32{
+    var obj1 = [_]i32{
         0,
         1,
         2,
     };
-    var obj2 = []i32{
+    var obj2 = [_]i32{
         3,
         4,
         5,
@@ -88,8 +88,8 @@ test "Basic Concat" {
 }
 
 test "Basic Cast" {
-    var obj = []i32{ 0, 1, 2 };
-    const result = []u8{ 0, 1, 2 };
+    var obj = [_]i32{ 0, 1, 2 };
+    const result = [_]u8{ 0, 1, 2 };
     var buf: [3]u8 = undefined;
     std.debug.assert(std.mem.eql(u8, init(obj[0..]).cast(u8).toArray(buf[0..]), result[0..]));
 }
@@ -99,7 +99,7 @@ fn selectManyTest(arr: []const i32) []const i32 {
 }
 
 test "Select Many" {
-    var obj = [][]const i32{ ([]i32{ 0, 1 })[0..], ([]i32{ 2, 3 })[0..], ([]i32{ 4, 5 })[0..] };
+    var obj = [_][]const i32{ ([_]i32{ 0, 1 })[0..], ([_]i32{ 2, 3 })[0..], ([_]i32{ 4, 5 })[0..] };
     var i: i32 = 0;
     var it = init(obj[0..]).selectMany(i32, selectManyTest);
     while (it.next()) |next| {
@@ -110,15 +110,15 @@ test "Select Many" {
 
 test "Reverse" {
     var buf: [100]i32 = undefined;
-    var obj = []i32{ 9, 4, 54, 23, 1 };
-    var result = []i32{ 1, 23, 54, 4, 9 };
+    var obj = [_]i32{ 9, 4, 54, 23, 1 };
+    var result = [_]i32{ 1, 23, 54, 4, 9 };
     std.debug.assert(std.mem.eql(i32, init(obj[0..]).reverse(buf[0..]).toArray(buf[25..]), result[0..]));
 }
 
 test "Sorting" {
     var buf: [100]i32 = undefined;
-    var obj = []i32{ 9, 4, 54, 23, 1 };
-    var result = []i32{ 1, 4, 9, 23, 54 };
+    var obj = [_]i32{ 9, 4, 54, 23, 1 };
+    var result = [_]i32{ 1, 4, 9, 23, 54 };
     std.debug.assert(std.mem.eql(i32, init(obj[0..]).orderByAscending(i32, orderBySimple, buf[0..]).toArray(buf[25..]), result[0..]));
 }
 
